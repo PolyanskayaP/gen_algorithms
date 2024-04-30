@@ -1,22 +1,7 @@
 import math as mt
-
-def gener_list_BKGx(length_part_BKG):
-    pass
-    #return list_BKGx
-
-def preobr_list_BKGx_to_intx(list_BKGx):
-    pass 
-    #return list_intx
-
-def preobr_list_intx_to_realx(list_intx, length_part_BKG, xL, xH):
-    pass
-    #return list_realx
-    
-def grafik_realx(realx1, realx2):
-    pass
+import matplotlib.pyplot as plt
  
-##########
-def Kgener_list_BKGx(length_part_BKG):
+def gener_list_BKGx(length_part_BKG):
    if (length_part_BKG <= 0):
       return
    list_BKGx = list()
@@ -37,7 +22,7 @@ def Kgener_list_BKGx(length_part_BKG):
    print(list_BKGx)
    return list_BKGx
     
-def Kpreobr_list_BKGx_to_binx(list_BKGx):
+def preobr_list_BKGx_to_binx(list_BKGx):
    list_binars = list()
    list_intx = list()
    for BKGx in list_BKGx:
@@ -65,14 +50,24 @@ def from_list_bin_to_list_int(list_binars):
    print(list_int)
    return list_int
 
-def Kpreobr_list_intx_to_realx(list_intx, length_part_BKG, xL, xH):
-    pass
-    #return list_realx
+def preobr_list_intx_to_realx(list_intx, length_part_BKG, xL, xH):
+   list_realx = list()
+   for xi in list_intx:
+      x = xL +    (xi*(xH - xL))/((2**length_part_BKG) - 1)
+      list_realx.append(x)
+   print(list_realx)
+   return list_realx
     
-def Kgrafik_realx(realx1, realx2):
-    pass
-##########
+def grafik_realx(realx1, realx2):
+   plt.scatter(realx1, realx2, color = 'orange')
+   plt.show()
 
-list_BKGx = Kgener_list_BKGx(4)
-list_binars = Kpreobr_list_BKGx_to_binx(list_BKGx)
+length_part_BKG = 18
+xL = 0 
+xH = 79
+
+list_BKGx = gener_list_BKGx(length_part_BKG)
+list_binars = preobr_list_BKGx_to_binx(list_BKGx)
 list_intx = from_list_bin_to_list_int(list_binars)
+list_realx = preobr_list_intx_to_realx(list_intx, length_part_BKG, xL, xH)
+grafik_realx(list_realx, list_realx)
