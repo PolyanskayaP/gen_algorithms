@@ -1,3 +1,5 @@
+import math as mt
+
 def gener_list_BKGx(length_part_BKG):
     pass
     #return list_BKGx
@@ -12,30 +14,52 @@ def preobr_list_intx_to_realx(list_intx, length_part_BKG, xL, xH):
     
 def grafik_realx(realx1, realx2):
     pass
-
-import math as mt
-def generate_gray_list(my_val):
-   if (my_val <= 0):
+ 
+##########
+def Kgener_list_BKGx(length_part_BKG):
+   if (length_part_BKG <= 0):
       return
-   my_list = list()
-   my_list.append("0")
-   my_list.append("1")
+   list_BKGx = list()
+   list_BKGx.append("0")
+   list_BKGx.append("1")
    i = 2
    j = 0
    while(True):
-      if i >= 1 << my_val:
+      if i >= 1 << length_part_BKG:
          break
       for j in range(i - 1, -1, -1):
-         my_list.append(my_list[j])
+         list_BKGx.append(list_BKGx[j])
       for j in range(i):
-         my_list[j] = "0" + my_list[j]
+         list_BKGx[j] = "0" + list_BKGx[j]
       for j in range(i, 2 * i):
-         my_list[j] = "1" + my_list[j]
+         list_BKGx[j] = "1" + list_BKGx[j]
       i = i << 1
-   for i in range(len(my_list)):
-      print(my_list[i])
-my_num = 3
-print("The number is :")
-print(my_num)
-print("Method to convert gray code to binary is being called...")
-generate_gray_list(my_num)
+   print(list_BKGx)
+   return list_BKGx
+    
+def Kpreobr_list_BKGx_to_intx(list_BKGx):
+   for BKGx in list_BKGx:
+      dvoich_list_intx = list()
+      BKGx_po_sim = list(BKGx) 
+      BKGx_po_cif = [int(x) for x in BKGx_po_sim]
+      for i in range(len(BKGx_po_cif)):
+         if i == 0:
+            dvoich_list_intx.append(BKGx_po_cif[i])
+         else:
+            bj = 0
+            for j in range(i+1):
+               bj = bj ^ BKGx_po_cif[j]
+            dvoich_list_intx.append(bj)
+      print(dvoich_list_intx)
+   #return list_intx
+
+def Kpreobr_list_intx_to_realx(list_intx, length_part_BKG, xL, xH):
+    pass
+    #return list_realx
+    
+def Kgrafik_realx(realx1, realx2):
+    pass
+##########
+
+list_BKGx = Kgener_list_BKGx(4)
+Kpreobr_list_BKGx_to_intx(list_BKGx)
