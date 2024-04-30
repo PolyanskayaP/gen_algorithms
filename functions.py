@@ -20,14 +20,14 @@ def gener_list_BKGx(length_part_BKG):
       for j in range(i, 2 * i):
          list_BKGx[j] = "1" + list_BKGx[j]
       i = i << 1
-   #print(list_BKGx)
+   #print("Список всех БКГ данной длины\n", list_BKGx)
    return list_BKGx
     
 def choose_random_from_list(our_list, kolvo):
    list_randoms = list()
    for i in range(kolvo):
       list_randoms.append(random.choice(our_list))
-   print(list_randoms)
+   print("БКГ\n", list_randoms)
    return list_randoms
     
 def preobr_list_BKGx_to_binx(list_BKGx):
@@ -46,14 +46,14 @@ def preobr_list_BKGx_to_binx(list_BKGx):
             dvoich_list_intx.append(bj)
       bin_str = ''.join(str(x) for x in dvoich_list_intx)
       list_binars.append(bin_str)
-   print(list_binars)
+   print("Двоичная СС\n", list_binars)
    return list_binars
 
 def from_list_bin_to_list_int(list_binars):
    list_int = list()
    for x in list_binars:
       list_int.append(int(x, base=2))
-   print(list_int)
+   print("Целые значения\n", list_int)
    return list_int
 
 def preobr_list_intx_to_realx(list_intx, length_part_BKG, xL, xH):
@@ -61,11 +61,12 @@ def preobr_list_intx_to_realx(list_intx, length_part_BKG, xL, xH):
    for xi in list_intx:
       x = xL +    (xi*(xH - xL))/((2**length_part_BKG) - 1)
       list_realx.append(x)
-   print(list_realx)
+   print("Вещественные значения\n", list_realx)
+   print("\n")
    return list_realx
     
 def grafik_realx(realx1, realx2):
-   plt.scatter(realx1, realx2, color = 'orange')
+   plt.scatter(realx1, realx2, color = 'green')
    plt.show()
 
 length_part_BKG = 12
