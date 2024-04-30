@@ -37,7 +37,9 @@ def Kgener_list_BKGx(length_part_BKG):
    print(list_BKGx)
    return list_BKGx
     
-def Kpreobr_list_BKGx_to_intx(list_BKGx):
+def Kpreobr_list_BKGx_to_binx(list_BKGx):
+   list_binars = list()
+   list_intx = list()
    for BKGx in list_BKGx:
       dvoich_list_intx = list()
       BKGx_po_sim = list(BKGx) 
@@ -50,8 +52,18 @@ def Kpreobr_list_BKGx_to_intx(list_BKGx):
             for j in range(i+1):
                bj = bj ^ BKGx_po_cif[j]
             dvoich_list_intx.append(bj)
-      print(dvoich_list_intx)
-   #return list_intx
+      #print(dvoich_list_intx)
+      bin_str = ''.join(str(x) for x in dvoich_list_intx)
+      list_binars.append(bin_str)
+   print(list_binars)
+   return list_binars
+
+def from_list_bin_to_list_int(list_binars):
+   list_int = list()
+   for x in list_binars:
+      list_int.append(int(x, base=2))
+   print(list_int)
+   return list_int
 
 def Kpreobr_list_intx_to_realx(list_intx, length_part_BKG, xL, xH):
     pass
@@ -62,4 +74,5 @@ def Kgrafik_realx(realx1, realx2):
 ##########
 
 list_BKGx = Kgener_list_BKGx(4)
-Kpreobr_list_BKGx_to_intx(list_BKGx)
+list_binars = Kpreobr_list_BKGx_to_binx(list_BKGx)
+list_intx = from_list_bin_to_list_int(list_binars)
