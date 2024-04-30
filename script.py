@@ -1,6 +1,6 @@
 import functions as fun
 
-length_part_BKG = 12
+length_part_BKG = 24
 xL = 0 
 xH = 79
 kolvo = 10
