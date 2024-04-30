@@ -1,5 +1,6 @@
 import math as mt
 import matplotlib.pyplot as plt
+import random
  
 def gener_list_BKGx(length_part_BKG):
    if (length_part_BKG <= 0):
@@ -19,12 +20,18 @@ def gener_list_BKGx(length_part_BKG):
       for j in range(i, 2 * i):
          list_BKGx[j] = "1" + list_BKGx[j]
       i = i << 1
-   print(list_BKGx)
+   #print(list_BKGx)
    return list_BKGx
+    
+def choose_random_from_list(our_list, kolvo):
+   list_randoms = list()
+   for i in range(kolvo):
+      list_randoms.append(random.choice(our_list))
+   print(list_randoms)
+   return list_randoms
     
 def preobr_list_BKGx_to_binx(list_BKGx):
    list_binars = list()
-   list_intx = list()
    for BKGx in list_BKGx:
       dvoich_list_intx = list()
       BKGx_po_sim = list(BKGx) 
@@ -37,7 +44,6 @@ def preobr_list_BKGx_to_binx(list_BKGx):
             for j in range(i+1):
                bj = bj ^ BKGx_po_cif[j]
             dvoich_list_intx.append(bj)
-      #print(dvoich_list_intx)
       bin_str = ''.join(str(x) for x in dvoich_list_intx)
       list_binars.append(bin_str)
    print(list_binars)
@@ -62,12 +68,21 @@ def grafik_realx(realx1, realx2):
    plt.scatter(realx1, realx2, color = 'orange')
    plt.show()
 
-length_part_BKG = 18
+length_part_BKG = 12
 xL = 0 
 xH = 79
+kolvo = 10
 
 list_BKGx = gener_list_BKGx(length_part_BKG)
-list_binars = preobr_list_BKGx_to_binx(list_BKGx)
-list_intx = from_list_bin_to_list_int(list_binars)
-list_realx = preobr_list_intx_to_realx(list_intx, length_part_BKG, xL, xH)
-grafik_realx(list_realx, list_realx)
+
+list_randoms_1 = choose_random_from_list(list_BKGx, kolvo)
+list_binars_1 = preobr_list_BKGx_to_binx(list_randoms_1)
+list_intx_1 = from_list_bin_to_list_int(list_binars_1)
+list_realx_1 = preobr_list_intx_to_realx(list_intx_1, length_part_BKG, xL, xH)
+
+list_randoms_2 = choose_random_from_list(list_BKGx, kolvo)
+list_binars_2 = preobr_list_BKGx_to_binx(list_randoms_2)
+list_intx_2 = from_list_bin_to_list_int(list_binars_2)
+list_realx_2 = preobr_list_intx_to_realx(list_intx_2, length_part_BKG, xL, xH)
+
+grafik_realx(list_realx_1, list_realx_2)
