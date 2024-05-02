@@ -66,5 +66,9 @@ def preobr_list_intx_to_realx(list_intx, length_part_BKG, xL, xH):
    return list_realx
     
 def grafik_realx(realx1, realx2):
-   plt.scatter(realx1, realx2, color = 'green')
+   fig = plt.figure()
+   ax = fig.add_subplot(111)
+   ax.scatter(realx1, realx2, color = 'green')
+   ax.set_xlabel('x1')
+   ax.set_ylabel('x2')
    plt.show()
