@@ -18,3 +18,7 @@ list_intx_2 = fun.from_list_bin_to_list_int(list_binars_2)
 list_realx_2 = fun.preobr_list_intx_to_realx(list_intx_2, length_part_BKG, xL, xH)
 
 fun.grafik_realx(list_realx_1, list_realx_2)
+#print(list_realx_1, list_realx_2)
+f1_list, f2_list = fun.f1_function(list_realx_1, list_realx_2, kolvo)
+b_list, fi_list = fun.fun_prig(f1_list, f2_list, kolvo)
+print(b_list, fi_list)

@@ -72,3 +72,27 @@ def grafik_realx(realx1, realx2):
    ax.set_xlabel('x1')
    ax.set_ylabel('x2')
    plt.show()
+   
+def f1_function(list_realx_1, list_realx_2, kolvo):
+   f1_list = []
+   f2_list = []
+   for i in range(kolvo):
+      f1 = 0.2 * ((list_realx_1[i] - 70)**2) + 0.8 * ((list_realx_2[i] - 20)**2)
+      f2 = 0.8 * ((list_realx_1[i] - 10)**2) + 0.2 * ((list_realx_2[i] - 70)**2)
+      f1_list.append(f1)
+      f2_list.append(f2) 
+   return f1_list, f2_list
+
+def fun_prig(f1_list, f2_list, kolvo):
+   b_list = []
+   fi_list = []
+   for i in range(1, kolvo + 1):
+      b_conter = 0
+      for j in range(1, kolvo + 1):
+         if (f1_list[j - 1] < f1_list[i - 1] and f2_list[j - 1] <= f2_list[i - 1]) or \
+                  (f1_list[j - 1] <= f1_list[i - 1] and f2_list[j - 1] < f2_list[i - 1]):
+               b_conter += 1
+      b_list.append(b_conter)
+      fi = 1 / (1 + (b_conter / (kolvo - 1)))
+      fi_list.append(fi)
+   return b_list, fi_list
