@@ -3,8 +3,10 @@ import functions as fun
 length_part_BKG = 18 #24
 xL = 0 
 xH = 79
-kolvo = 10
+kolvo = 100
 n_group = 5
+n_max = 5
+n_cycles_for_parents = 4
 
 list_BKGx = fun.gener_list_BKGx(length_part_BKG)
 
@@ -34,13 +36,17 @@ fun.grafik_f(f_list_1, f_list_2)
 fun_prig_fin = fun.fun_prig_fin(f_list_1, f_list_2, kolvo)
 print("Функция пригодности: ", fun_prig_fin)
 
-'''
-list_of_set = fun.razb_group_idx(kolvo, n_group)
-print("list_of_set: ", list_of_set)
+mnogo_roditeley = []
+for i in range(n_cycles_for_parents):
+    list_of_set = fun.razb_group_idx(kolvo, n_group)
+    print("list_of_set: ",i,": ", list_of_set)
 
-group_i_list, group_f_list = fun.f_for_groups(list_of_set, fun_prig_fin, kolvo, n_group=5)
-print("group_i_list: ", group_i_list)
-print("group_f_list: ", group_f_list)
+    group_i_list, group_f_list = fun.f_for_groups(list_of_set, fun_prig_fin, kolvo, n_group=5)
+    print("group_i_list: ",i,": ", group_i_list)
+    print("group_f_list: ",i,": ", group_f_list)
 
-fun.find_max_from_groups(group_f_list, n_max=5)
-'''
+    roditeli = fun.find_max_from_groups(group_f_list, group_i_list, n_max)
+    print("roditeli ",i,": ", roditeli)
+    mnogo_roditeley.append(roditeli)
+print("Roditeli: ", mnogo_roditeley)
+print("Roditeli: ", fun.priglad_mass(mnogo_roditeley))

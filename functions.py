@@ -1,6 +1,7 @@
 import math as mt
 import matplotlib.pyplot as plt
 import random
+import itertools
  
 def gener_list_BKGx(length_part_BKG):
    if (length_part_BKG <= 0):
@@ -153,9 +154,21 @@ def f_for_groups(list_of_set, fun_prig_fin, kolvo, n_group=5):
    
    return list_of_list_i, group_f_list 
 
-def find_max_from_groups(group_f_list, n_max=5):
+def find_max_from_groups(group_f_list, group_i_list, n_max=5):
    list_max_i_list = []
-   for x in group_f_list:
-      list_max_n_idxs = [x[0] for x in sorted(enumerate(group_f_list), key=lambda x: x[1])[-n_max:]]
-      list_max_i_list.append(list_max_i_list)
-      print(list_max_i_list)
+   list_max_i_list_new = []
+   ii = 0
+   for kucuk_list in group_f_list:
+      kucuk_list_idxs = [x[0] for x in sorted(enumerate(kucuk_list), key=lambda x: x[1])[-n_max:]]
+      list_max_i_list.append(kucuk_list_idxs)
+      list_max_i_list_new.append( [group_i_list[ii][i] for i in kucuk_list_idxs] )
+      ii = ii + 1
+   return list_max_i_list_new
+
+def oneDArray(x):
+    return list(itertools.chain(*x))
+
+def priglad_mass(a):
+    a = oneDArray(a)
+    a = oneDArray(a)
+    return a
