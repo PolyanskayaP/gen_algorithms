@@ -4,6 +4,7 @@ length_part_BKG = 18 #24
 xL = 0 
 xH = 79
 kolvo = 10
+n_group = 5
 
 list_BKGx = fun.gener_list_BKGx(length_part_BKG)
 
@@ -30,4 +31,8 @@ print("b_list_1, f_list_1: ", b_list_1, f_list_1)
 print("b_list_2, f_list_2: ", b_list_2, f_list_2)
 fun.grafik_f(f_list_1, f_list_2)
 
+fun_prig_fin = fun.fun_prig_fin(f_list_1, f_list_2, kolvo)
+print("Функция пригодности: ", fun_prig_fin)
 
+list_of_set = fun.razb_group_idx(kolvo, n_group)
+print("list_of_set: ", list_of_set)

@@ -104,6 +104,20 @@ def grafik_f(realx1, realx2):
    ax.set_ylabel('f2')
    plt.show()
    
+def fun_prig_fin(f1_list, f2_list, kolvo):
+   b_list = []
+   fi_list = []
+   for i in range(1, kolvo + 1):
+      b_conter = 0
+      for j in range(1, kolvo + 1):
+         if (f1_list[j - 1] < f1_list[i - 1] and f2_list[j - 1] <= f2_list[i - 1]) or \
+                  (f1_list[j - 1] <= f1_list[i - 1] and f2_list[j - 1] < f2_list[i - 1]):
+               b_conter += 1
+      b_list.append(b_conter)
+      fi = 1 / (1 + (b_conter / (kolvo - 1)))
+      fi_list.append(fi)
+   return fi_list
+   
 def razb_group_idx(kolvo, n_group=5):   #, f_list
    idxs = set(range(kolvo))
    list_groups = []
@@ -112,3 +126,6 @@ def razb_group_idx(kolvo, n_group=5):   #, f_list
       list_groups.append(team)
       idxs = idxs - team
    return list_groups
+
+def choose_best():
+   pass
