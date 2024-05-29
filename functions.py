@@ -120,12 +120,42 @@ def fun_prig_fin(f1_list, f2_list, kolvo):
    
 def razb_group_idx(kolvo, n_group=5):   #, f_list
    idxs = set(range(kolvo))
-   list_groups = []
+   list_of_set = []
    for i in range(n_group):
       team = set(random.sample(idxs, int(kolvo/n_group)))  #следить за целочисленным делением
-      list_groups.append(team)
+      list_of_set.append(team)
       idxs = idxs - team
-   return list_groups
+   return list_of_set
 
-def choose_best():
-   pass
+'''
+def choose_best_from_groups(list_groups, f_list, kolvo, n_group=5):
+   list_max_i = []
+   for sett in list_groups:
+      max_i = random.sample(sett, 1)
+      max_f = f_list[max_i]
+      for i in sett:
+         f = f_list[i]
+         if f > max_f:
+            max_f = f
+            max_i = i 
+      list_max_i.append(max_i)
+'''
+
+def f_for_groups(list_of_set, fun_prig_fin, kolvo, n_group=5):
+   list_of_list_i = [list(sett) for sett in list_of_set]
+   
+   group_f_list = []
+   for listt in list_of_list_i:
+      f_listt = []
+      for i in listt:
+         f_listt.append(fun_prig_fin[i])
+      group_f_list.append(f_listt)
+   
+   return list_of_list_i, group_f_list 
+
+def find_max_from_groups(group_f_list, n_max=5):
+   list_max_i_list = []
+   for x in group_f_list:
+      list_max_n_idxs = [x[0] for x in sorted(enumerate(group_f_list), key=lambda x: x[1])[-n_max:]]
+      list_max_i_list.append(list_max_i_list)
+      print(list_max_i_list)
