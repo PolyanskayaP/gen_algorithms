@@ -24,11 +24,10 @@ fun.grafik_realx(list_realx_1, list_realx_2)
 J1_list, J2_list = fun.J1_function(list_realx_1, list_realx_2, kolvo)
 print("J1", J1_list)
 print("J2", J2_list)
-b_list_1, f_list_1 = fun.fun_pered_prig(J1_list, kolvo)
-b_list_2, f_list_2 = fun.fun_pered_prig(J2_list, kolvo)
+b_list_1, f_list_1 = fun.fun_prig(J1_list, kolvo)
+b_list_2, f_list_2 = fun.fun_prig(J2_list, kolvo)
 print("b_list_1, f_list_1: ", b_list_1, f_list_1)
 print("b_list_2, f_list_2: ", b_list_2, f_list_2)
-fun.grafik_pered_fprig(f_list_1, f_list_2)
+fun.grafik_f(f_list_1, f_list_2)
 
-#fi_list = fun.fun_prig(f_list_1, f_list_2, kolvo)  # правильно ли?
-#print("fi_list: ", fi_list)
+

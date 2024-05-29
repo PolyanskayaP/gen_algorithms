@@ -73,14 +73,6 @@ def grafik_realx(realx1, realx2):
    ax.set_ylabel('x2')
    plt.show()
    
-def grafik_pered_fprig(realx1, realx2):
-   fig = plt.figure()
-   ax = fig.add_subplot(111)
-   ax.scatter(realx1, realx2, color = 'green')
-   ax.set_xlabel('f1')
-   ax.set_ylabel('f2')
-   plt.show()
-   
 def J1_function(list_realx_1, list_realx_2, kolvo):
    f1_list = []
    f2_list = []
@@ -91,7 +83,7 @@ def J1_function(list_realx_1, list_realx_2, kolvo):
       f2_list.append(f2) 
    return f1_list, f2_list
 
-def fun_pered_prig(f1_list, kolvo):
+def fun_prig(f1_list, kolvo):
    b_list = []
    fi_list = []
    for i in range(1, kolvo + 1):
@@ -100,21 +92,23 @@ def fun_pered_prig(f1_list, kolvo):
          if (f1_list[j - 1] < f1_list[i - 1]):
                b_conter += 1
       b_list.append(b_conter)
-      fi = 1 / (1 + (b_conter / (kolvo - 1)))
+      fi = 1 / (1 + (b_conter / (kolvo - 1)))#степень?
       fi_list.append(fi)
    return b_list, fi_list
-'''
-def fun_prig(f1_list, f2_list, kolvo):
-   b_list = []
-   fi_list = []
-   for i in range(1, kolvo + 1):
-      b_conter = 0
-      for j in range(1, kolvo + 1):
-         if (f1_list[j - 1] < f1_list[i - 1] and f2_list[j - 1] <= f2_list[i - 1]) or \
-                  (f1_list[j - 1] <= f1_list[i - 1] and f2_list[j - 1] < f2_list[i - 1]):
-               b_conter += 1
-      b_list.append(b_conter)
-      fi = 1 / (1 + (b_conter / (kolvo - 1)))
-      fi_list.append(fi)
-   return b_list, fi_list
-'''
+
+def grafik_f(realx1, realx2):
+   fig = plt.figure()
+   ax = fig.add_subplot(111)
+   ax.scatter(realx1, realx2, color = 'blue')
+   ax.set_xlabel('f1')
+   ax.set_ylabel('f2')
+   plt.show()
+   
+def razb_group_idx(kolvo, n_group=5):   #, f_list
+   idxs = set(range(kolvo))
+   list_groups = []
+   for i in range(n_group):
+      team = set(random.sample(idxs, int(kolvo/n_group)))  #следить за целочисленным делением
+      list_groups.append(team)
+      idxs = idxs - team
+   return list_groups
