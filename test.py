@@ -166,4 +166,20 @@ axes_4.set_ylim(0, 4000)
 #plt.show()
 '''
 
+l = [1, 2, 3, 4, 5, 6, 7, 8]
+l = [[i, j] for i, j in zip(l[0::2], l[1::2])]
+print(l)
 
+'''
+def crossover(parent1, parent2):
+    t2 = int(N / 2 - 1)  #49
+    t1 = random.randint(1, t2 - 2)  #1..47
+    t3 = random.randint(t2 + 2, N - 1)  #51..99
+    baby1 = bkg_list[parent1][0:t1] + bkg_list[parent2][t1:t2] + bkg_list[parent1][t2:t3] + bkg_list[parent2][t3:m * 2]
+    baby2 = bkg_list[parent2][0:t1] + bkg_list[parent1][t1:t2] + bkg_list[parent2][t2:t3] + bkg_list[parent1][t3:m * 2]
+    return [baby1, baby2]
+'''
+s = "12345678"
+s1 = s[: len(s) // 2]
+s2 = s[len(s) // 2 :]
+print(s1, s2)

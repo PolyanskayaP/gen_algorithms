@@ -49,4 +49,18 @@ for i in range(n_cycles_for_parents):
     print("roditeli ",i,": ", roditeli)
     mnogo_roditeley.append(roditeli)
 print("Roditeli: ", mnogo_roditeley)
-print("Roditeli: ", fun.priglad_mass(mnogo_roditeley))
+roditeli_edin_spiskom = fun.priglad_mass(mnogo_roditeley)
+print("Roditeli: ", roditeli_edin_spiskom)
+
+roditeli_po_param = [[i, j] for i, j in zip(roditeli_edin_spiskom[0::2], roditeli_edin_spiskom[1::2])]
+print("\nПары родителей: ", roditeli_po_param)
+
+crossover_deti = []
+for parents in roditeli_po_param:
+    crossover_deti.append(fun.crossover(length_part_BKG, parents[0], parents[1], list_randoms_1, list_randoms_2))
+print("\nДети (кроссовер): ", crossover_deti)
+
+bkg_det_part_1, bkg_det_part_2 = fun.split_chrom_det(crossover_deti)
+print("\nbkg_det_part_1: ", bkg_det_part_1)
+print("\nbkg_det_part_2: ", bkg_det_part_2)
+

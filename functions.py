@@ -172,3 +172,24 @@ def priglad_mass(a):
     a = oneDArray(a)
     a = oneDArray(a)
     return a
+ 
+def crossover(length_part_BKG, parent1, parent2, list_randoms_1, list_randoms_2): #length_part_BKG = 18 #возвращает хромосому не разделенную на 2 части, как до этого
+   bkg = list_randoms_1[parent1] + list_randoms_2[parent2]
+   length_part_BKG = length_part_BKG * 2 #36
+   t2 = int(length_part_BKG / 2 - 1)  #17
+   t1 = random.randint(1, t2 - 2)  #1..15
+   t3 = random.randint(t2 + 2, length_part_BKG - 1)  #19..35
+   baby1 = bkg[0:t1] + bkg[t1:t2] + bkg[t2:t3] + bkg[t3:length_part_BKG]
+   baby2 = bkg[0:t1] + bkg[t1:t2] + bkg[t2:t3] + bkg[t3:length_part_BKG]
+   return [baby1, baby2]
+
+def split_chrom_det(listt):
+   bkg_det_part_1 = []
+   bkg_det_part_2 = []
+   for deti in listt:
+      for d in deti:
+         d1 = d[: len(d) // 2]
+         d2 = d[len(d) // 2 :]
+         bkg_det_part_1.append(d1)
+         bkg_det_part_2.append(d2)
+   return bkg_det_part_1, bkg_det_part_2
