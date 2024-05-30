@@ -3,10 +3,12 @@ import functions as fun
 length_part_BKG = 18 #24
 xL = 0 
 xH = 79
-kolvo = 100
+kolvo = 4000  #пропорц n_max 100
+kolvo_det = kolvo
 n_group = 5
-n_max = 5
+n_max = 200    #пропорц kolvo 5
 n_cycles_for_parents = 4
+#n_group * n_max * n_cycles_for_parents = kolvo
 
 list_BKGx = fun.gener_list_BKGx(length_part_BKG)
 
@@ -74,3 +76,15 @@ list_intx_det_2 = fun.from_list_bin_to_list_int(list_bin_det_2)
 list_realx_det_2 = fun.preobr_list_intx_to_realx(list_intx_det_2, length_part_BKG, xL, xH)
 
 fun.grafik_realx(list_realx_det_1, list_realx_det_2, "Новая популяция x")
+
+J1_det_list, J2_det_list = fun.J1_function(list_realx_det_1, list_realx_det_2, kolvo_det) #количество детей пока совпадает с родителями
+print("J1_det", J1_det_list)
+print("J2_det", J2_det_list)
+b_list_det_1, f_list_det_1 = fun.fun_prig(J1_det_list, kolvo_det)
+b_list_det_2, f_list_det_2 = fun.fun_prig(J2_det_list, kolvo_det)
+print("b_list_1, f_list_1: ", b_list_det_1, f_list_det_1)
+print("b_list_2, f_list_2: ", b_list_det_2, f_list_det_2)
+fun.grafik_f(f_list_det_1, f_list_det_2, "Функции пригодности потомков")
+
+fun_prig_det_fin = fun.fun_prig_fin(f_list_det_1, f_list_det_2, kolvo_det)
+print("Функция пригодности: ", fun_prig_det_fin)
