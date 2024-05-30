@@ -66,12 +66,13 @@ def preobr_list_intx_to_realx(list_intx, length_part_BKG, xL, xH):
    print("\n")
    return list_realx
     
-def grafik_realx(realx1, realx2):
+def grafik_realx(realx1, realx2, title):
    fig = plt.figure()
    ax = fig.add_subplot(111)
    ax.scatter(realx1, realx2, color = 'green')
    ax.set_xlabel('x1')
    ax.set_ylabel('x2')
+   ax.set_title(title)
    plt.show()
    
 def J1_function(list_realx_1, list_realx_2, kolvo):
@@ -97,12 +98,13 @@ def fun_prig(f1_list, kolvo):
       fi_list.append(fi)
    return b_list, fi_list
 
-def grafik_f(realx1, realx2):
+def grafik_f(realx1, realx2, title):
    fig = plt.figure()
    ax = fig.add_subplot(111)
    ax.scatter(realx1, realx2, color = 'blue')
    ax.set_xlabel('f1')
    ax.set_ylabel('f2')
+   ax.set_title(title)
    plt.show()
    
 def fun_prig_fin(f1_list, f2_list, kolvo):
@@ -174,13 +176,14 @@ def priglad_mass(a):
     return a
  
 def crossover(length_part_BKG, parent1, parent2, list_randoms_1, list_randoms_2): #length_part_BKG = 18 #возвращает хромосому не разделенную на 2 части, как до этого
-   bkg = list_randoms_1[parent1] + list_randoms_2[parent2]
+   bkg_par_1 = list_randoms_1[parent1] + list_randoms_2[parent1]
+   bkg_par_2 = list_randoms_1[parent2] + list_randoms_2[parent2]
    length_part_BKG = length_part_BKG * 2 #36
    t2 = int(length_part_BKG / 2 - 1)  #17
    t1 = random.randint(1, t2 - 2)  #1..15
    t3 = random.randint(t2 + 2, length_part_BKG - 1)  #19..35
-   baby1 = bkg[0:t1] + bkg[t1:t2] + bkg[t2:t3] + bkg[t3:length_part_BKG]
-   baby2 = bkg[0:t1] + bkg[t1:t2] + bkg[t2:t3] + bkg[t3:length_part_BKG]
+   baby1 = bkg_par_1[0:t1] + bkg_par_2[t1:t2] + bkg_par_1[t2:t3] + bkg_par_2[t3:length_part_BKG]
+   baby2 = bkg_par_2[0:t1] + bkg_par_1[t1:t2] + bkg_par_2[t2:t3] + bkg_par_1[t3:length_part_BKG]
    return [baby1, baby2]
 
 def split_chrom_det(listt):

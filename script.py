@@ -20,7 +20,7 @@ list_binars_2 = fun.preobr_list_BKGx_to_binx(list_randoms_2)
 list_intx_2 = fun.from_list_bin_to_list_int(list_binars_2)
 list_realx_2 = fun.preobr_list_intx_to_realx(list_intx_2, length_part_BKG, xL, xH)
 
-fun.grafik_realx(list_realx_1, list_realx_2)
+fun.grafik_realx(list_realx_1, list_realx_2, " ")
 
 
 
@@ -31,7 +31,7 @@ b_list_1, f_list_1 = fun.fun_prig(J1_list, kolvo)
 b_list_2, f_list_2 = fun.fun_prig(J2_list, kolvo)
 print("b_list_1, f_list_1: ", b_list_1, f_list_1)
 print("b_list_2, f_list_2: ", b_list_2, f_list_2)
-fun.grafik_f(f_list_1, f_list_2)
+fun.grafik_f(f_list_1, f_list_2, "Функции пригодности")
 
 fun_prig_fin = fun.fun_prig_fin(f_list_1, f_list_2, kolvo)
 print("Функция пригодности: ", fun_prig_fin)
@@ -64,3 +64,13 @@ bkg_det_part_1, bkg_det_part_2 = fun.split_chrom_det(crossover_deti)
 print("\nbkg_det_part_1: ", bkg_det_part_1)
 print("\nbkg_det_part_2: ", bkg_det_part_2)
 
+
+list_bin_det_1 = fun.preobr_list_BKGx_to_binx(bkg_det_part_1)
+list_intx_det_1 = fun.from_list_bin_to_list_int(list_bin_det_1)
+list_realx_det_1 = fun.preobr_list_intx_to_realx(list_intx_det_1, length_part_BKG, xL, xH)
+
+list_bin_det_2 = fun.preobr_list_BKGx_to_binx(bkg_det_part_2)
+list_intx_det_2 = fun.from_list_bin_to_list_int(list_bin_det_2)
+list_realx_det_2 = fun.preobr_list_intx_to_realx(list_intx_det_2, length_part_BKG, xL, xH)
+
+fun.grafik_realx(list_realx_det_1, list_realx_det_2, "Новая популяция x")
