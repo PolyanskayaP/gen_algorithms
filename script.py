@@ -1,12 +1,13 @@
 import functions as fun
+import pandas as pd
 
 length_part_BKG = 18 #24
 xL = 0 
 xH = 79
-kolvo = 4000  #пропорц n_max 100
+kolvo = 100  #пропорц n_max 100 4000
 kolvo_det = kolvo
 n_group = 5
-n_max = 200    #пропорц kolvo 5
+n_max = 5    #пропорц kolvo 5 200
 n_cycles_for_parents = 4
 #n_group * n_max * n_cycles_for_parents = kolvo
 
@@ -38,6 +39,17 @@ fun.grafik_f(f_list_1, f_list_2, "Функции пригодности")
 fun_prig_fin = fun.fun_prig_fin(f_list_1, f_list_2, kolvo)
 print("Функция пригодности: ", fun_prig_fin)
 
+df_1 = pd.DataFrame({'ТТО 1':  list_randoms_1,
+        'ТТО 2':  list_randoms_2,
+        'x1 вещ.': list_realx_1,
+        'x2 вещ.': list_realx_2,
+        'f1': f_list_1,
+        'f2': f_list_2,
+        'Фун.приг.': fun_prig_fin
+        })
+print("-------------------------------------------")
+print(df_1.head(30))
+
 mnogo_roditeley = []
 for i in range(n_cycles_for_parents):
     list_of_set = fun.razb_group_idx(kolvo, n_group)
@@ -56,6 +68,27 @@ print("Roditeli: ", roditeli_edin_spiskom)
 
 roditeli_po_param = [[i, j] for i, j in zip(roditeli_edin_spiskom[0::2], roditeli_edin_spiskom[1::2])]
 print("\nПары родителей: ", roditeli_po_param)
+
+df_2_list_randoms_1 = [list_randoms_1[a] for a in roditeli_edin_spiskom]
+df_2_list_randoms_2 = [list_randoms_2[a] for a in roditeli_edin_spiskom]
+df_2_list_realx_1 = [list_realx_1[a] for a in roditeli_edin_spiskom]
+df_2_list_realx_2 = [list_realx_2[a] for a in roditeli_edin_spiskom]
+df_2_f_list_1 = [f_list_1[a] for a in roditeli_edin_spiskom]
+df_2_f_list_2 = [f_list_2[a] for a in roditeli_edin_spiskom]
+df_2_fun_prig_fin = [fun_prig_fin[a] for a in roditeli_edin_spiskom]
+
+df_2 = pd.DataFrame({'ТТО 1':  df_2_list_randoms_1,
+        'ТТО 2':  df_2_list_randoms_2,
+        'x1 вещ.': df_2_list_realx_1,
+        'x2 вещ.': df_2_list_realx_2,
+        'f1': df_2_f_list_1,
+        'f2': df_2_f_list_2,
+        'Фун.приг.': df_2_fun_prig_fin
+        })
+
+print("------------------------------------")
+print("\nМассив родителей")
+print(df_2.head(30))
 
 crossover_deti = []
 for parents in roditeli_po_param:
@@ -86,5 +119,20 @@ print("b_list_1, f_list_1: ", b_list_det_1, f_list_det_1)
 print("b_list_2, f_list_2: ", b_list_det_2, f_list_det_2)
 fun.grafik_f(f_list_det_1, f_list_det_2, "Функции пригодности потомков")
 
+
 fun_prig_det_fin = fun.fun_prig_fin(f_list_det_1, f_list_det_2, kolvo_det)
 print("Функция пригодности: ", fun_prig_det_fin)
+
+
+df_3 = pd.DataFrame({'ТТО 1':  list_bin_det_1,
+        'ТТО 2':  list_bin_det_2,
+        'x1 вещ.': list_realx_det_1,
+        'x2 вещ.': list_realx_det_2,
+        'f1': f_list_det_1,
+        'f2': f_list_det_2,
+        'Фун.приг.': fun_prig_det_fin
+        })
+
+print("------------------------------------")
+print("\nМассив потомков")
+print(df_3.head(30))
