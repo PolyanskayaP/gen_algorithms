@@ -2,6 +2,7 @@ import math as mt
 import matplotlib.pyplot as plt
 import random
 import itertools
+import pandas as pd
  
 def gener_list_BKGx(length_part_BKG):
    if (length_part_BKG <= 0):
@@ -196,3 +197,10 @@ def split_chrom_det(listt):
          bkg_det_part_1.append(d1)
          bkg_det_part_2.append(d2)
    return bkg_det_part_1, bkg_det_part_2
+
+def choose_from_df_elit_dots(df):
+   df_elit = pd.DataFrame(columns=['ТТО 1', 'ТТО 2', 'x1 вещ.', 'x2 вещ.', 'f1', 'f2', 'Фун.приг.'])
+   for i, row in df.iterrows():
+      if row['Фун.приг.'] == 1 :
+         df_elit.loc[len(df_elit.index )] = df.loc[i]
+   return df_elit

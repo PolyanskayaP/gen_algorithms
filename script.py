@@ -47,8 +47,7 @@ df_1 = pd.DataFrame({'ТТО 1':  list_randoms_1,
         'f2': f_list_2,
         'Фун.приг.': fun_prig_fin
         })
-print("-------------------------------------------")
-print(df_1.head(30))
+print(df_1)
 
 mnogo_roditeley = []
 for i in range(n_cycles_for_parents):
@@ -85,10 +84,8 @@ df_2 = pd.DataFrame({'ТТО 1':  df_2_list_randoms_1,
         'f2': df_2_f_list_2,
         'Фун.приг.': df_2_fun_prig_fin
         })
-
-print("------------------------------------")
 print("\nМассив родителей")
-print(df_2.head(30))
+print(df_2)
 
 crossover_deti = []
 for parents in roditeli_po_param:
@@ -132,7 +129,11 @@ df_3 = pd.DataFrame({'ТТО 1':  list_bin_det_1,
         'f2': f_list_det_2,
         'Фун.приг.': fun_prig_det_fin
         })
-
-print("------------------------------------")
 print("\nМассив потомков")
-print(df_3.head(30))
+print(df_3)
+
+df_elit_dots = pd.DataFrame(columns=['ТТО 1', 'ТТО 2', 'x1 вещ.', 'x2 вещ.', 'f1', 'f2', 'Фун.приг.'])
+print(df_elit_dots)
+df_elit_dots = pd.concat([df_elit_dots, fun.choose_from_df_elit_dots(df_3)])
+print("\nМассив элитных точек в популяции")
+print(df_elit_dots)
