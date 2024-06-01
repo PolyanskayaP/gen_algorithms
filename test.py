@@ -1,185 +1,182 @@
-import random
-from prettytable import PrettyTable
-import matplotlib.pyplot as plt
-'''
-N = 100
-#K - количество поколений
-K = 4
-groups_num = 5
-points_num = 20
+import functions as fun
+import pandas as pd
 
-f1_list = []
-f2_list = []
+df_elit_dots = pd.DataFrame(columns=['ТТО 1', 'ТТО 2', 'x1 вещ.', 'x2 вещ.', 'f1', 'f2', 'Фун.приг.'])
+length_part_BKG = 18 #24
+xL = 0 
+xH = 79
+kolvo = 100  #пропорц n_max 100 4000
+kolvo_det = kolvo
+n_group = 5
+n_max = 5    #пропорц kolvo 5 200
+n_cycles_for_parents = 4
+#n_group * n_max * n_cycles_for_parents = kolvo
 
+list_BKGx = fun.gener_list_BKGx(length_part_BKG)
 
+list_randoms_1 = fun.choose_random_from_list(list_BKGx, kolvo)
+list_binars_1 = fun.preobr_list_BKGx_to_binx(list_randoms_1)
+list_intx_1 = fun.from_list_bin_to_list_int(list_binars_1)
+list_realx_1 = fun.preobr_list_intx_to_realx(list_intx_1, length_part_BKG, xL, xH)
 
+list_randoms_2 = fun.choose_random_from_list(list_BKGx, kolvo)
+list_binars_2 = fun.preobr_list_BKGx_to_binx(list_randoms_2)
+list_intx_2 = fun.from_list_bin_to_list_int(list_binars_2)
+list_realx_2 = fun.preobr_list_intx_to_realx(list_intx_2, length_part_BKG, xL, xH)
+fun.grafik_realx(list_realx_1, list_realx_2, "Инициализация начальной популяции")
 
-#print('\nПункт 3.3')
-#print('Турнир:')
-buf_list = []
+for i in range(10):
+    print("\nИТЕРАЦИЯ ", i+1, "\n")
+    #beginning of cycle
 
-for times in range(0, K):
+    J1_list, J2_list = fun.J1_function(list_realx_1, list_realx_2, kolvo)
+    #print("J1", J1_list)
+    #print("J2", J2_list)
+    b_list_1, f_list_1 = fun.fun_prig(J1_list, kolvo)
+    b_list_2, f_list_2 = fun.fun_prig(J2_list, kolvo)
+    #print("b_list_1, f_list_1: ", b_list_1, f_list_1)
+    #print("b_list_2, f_list_2: ", b_list_2, f_list_2)
+    if i==0:
+        fun.grafik_f(f_list_1, f_list_2, "Функции пригодности начальной популяции")
 
-    list_index = []
-    for i in range(0, N):
-        list_index.append(i)
+    fun_prig_fin = fun.fun_prig_fin(f_list_1, f_list_2, kolvo)
+    #print("Функция пригодности: ", fun_prig_fin)
 
+    df_1 = pd.DataFrame({'ТТО 1':  list_randoms_1,
+            'ТТО 2':  list_randoms_2,
+            'x1 вещ.': list_realx_1,
+            'x2 вещ.': list_realx_2,
+            'f1': f_list_1,
+            'f2': f_list_2,
+            'Фун.приг.': fun_prig_fin
+            })
+    if i==0:
+        print("Инициализация начальной популяции")
+        print(df_1)
 
-    def tour():
-        tournament = []
+    mnogo_roditeley = []
+    for i in range(n_cycles_for_parents):
+        list_of_set = fun.razb_group_idx(kolvo, n_group)
+        #print("list_of_set: ",i,": ", list_of_set)
 
-        inner_list = list_index.copy()
-        while len(tournament) < groups_num:
-            buf_list = []
-            while len(buf_list) < points_num:
-                rand_int = random.randint(0, N)
+        group_i_list, group_f_list = fun.f_for_groups(list_of_set, fun_prig_fin, kolvo, n_group=5)
+        #print("group_i_list: ",i,": ", group_i_list)
+        #print("group_f_list: ",i,": ", group_f_list)
 
-                if rand_int in inner_list:
-                    buf_list.append(rand_int)
-                    inner_list.remove(rand_int)
+        roditeli = fun.find_max_from_groups(group_f_list, group_i_list, n_max)
+        #print("roditeli ",i,": ", roditeli)
+        mnogo_roditeley.append(roditeli)
+    #print("Roditeli: ", mnogo_roditeley)
+    roditeli_edin_spiskom = fun.priglad_mass(mnogo_roditeley)
+    #print("Roditeli: ", roditeli_edin_spiskom)
 
-            tournament.append(buf_list)
+    roditeli_po_param = [[i, j] for i, j in zip(roditeli_edin_spiskom[0::2], roditeli_edin_spiskom[1::2])]
+    #print("\nПары родителей: ", roditeli_po_param)
 
+    df_2_list_randoms_1 = [list_randoms_1[a] for a in roditeli_edin_spiskom]
+    df_2_list_randoms_2 = [list_randoms_2[a] for a in roditeli_edin_spiskom]
+    df_2_list_realx_1 = [list_realx_1[a] for a in roditeli_edin_spiskom]
+    df_2_list_realx_2 = [list_realx_2[a] for a in roditeli_edin_spiskom]
+    df_2_f_list_1 = [f_list_1[a] for a in roditeli_edin_spiskom]
+    df_2_f_list_2 = [f_list_2[a] for a in roditeli_edin_spiskom]
+    df_2_fun_prig_fin = [fun_prig_fin[a] for a in roditeli_edin_spiskom]
 
-        tournament_print = []
-        for i in tournament:
-            buf_list_1 = []
+    df_2 = pd.DataFrame({'ТТО 1':  df_2_list_randoms_1,
+            'ТТО 2':  df_2_list_randoms_2,
+            'x1 вещ.': df_2_list_realx_1,
+            'x2 вещ.': df_2_list_realx_2,
+            'f1': df_2_f_list_1,
+            'f2': df_2_f_list_2,
+            'Фун.приг.': df_2_fun_prig_fin
+            })
+    print("\nМассив родителей")
+    print(df_2)
 
-            for j in i:
-                buf_list_1.append(j + 1)
-            tournament_print.append(buf_list_1)
-        print('Разделенные группы:',tournament)
+    crossover_deti = []
+    for parents in roditeli_po_param:
+        crossover_deti.append(fun.crossover(length_part_BKG, parents[0], parents[1], list_randoms_1, list_randoms_2))
+    #print("\nДети (кроссовер): ", crossover_deti)
 
-        return tournament
-
-
-    best_parents_list = []
-
-    while len(best_parents_list) < N:
-        tour_list = tour()
-
-        for item in tour_list:
-            inner_fi = []
-            for index, point in enumerate(item):
-
-                inner_fi.append([point, fi_list[point]])
-
-            inner_fi = sorted(inner_fi, key=lambda x: x[1])
-            print('Номер точки и значение функции Ф: ',inner_fi)
-            best_parents_list.append(inner_fi[-2][0])
-            best_parents_list.append(inner_fi[-1][0])
-
-    print('\nЛучшие родители: ')
-
-    print([i + 1 for i in best_parents_list])
-
-    print('\n\nПары: ')  #Пункт 3.4
-
-    part4, axes_4 = plt.subplots()
-    axes_4.set_xlim(0, 4000)
-    axes_4.set_ylim(0, 4000)
-    parents = []
-
-    buf_1 = None
-
-    while len(parents) < N / 2:
-        rand_int = random.randint(0, N)
-        if rand_int in best_parents_list:
-            if buf_1 is None:
-                buf_1 = rand_int
-                best_parents_list.remove(rand_int)
-            else:
-                parents.append([buf_1, rand_int])
-                buf_1 = None
-                best_parents_list.remove(rand_int)
-
-    print([[x + 1 for x in j] for j in parents])
-
-
-    def crossover(parent1, parent2):
-        t2 = int(N / 2 - 1)
-        t1 = random.randint(1, t2 - 2)
-        t3 = random.randint(t2 + 2, N - 1)
-        baby1 = bkg_list[parent1][0:t1] + bkg_list[parent2][t1:t2] + bkg_list[parent1][t2:t3] + bkg_list[parent2][t3:m * 2]
-        baby2 = bkg_list[parent2][0:t1] + bkg_list[parent1][t1:t2] + bkg_list[parent2][t2:t3] + bkg_list[parent1][t3:m * 2]
-        return [baby1, baby2]
-
-    babys_bkg = []
-    for item in parents:
-        babys_bkg.append(crossover(item[0], item[1])[0])
-        babys_bkg.append(crossover(item[0], item[1])[1])
-
-    table_4 = PrettyTable()
-    table_4.field_names = ["Номер", "БКГх1", "БКГх2", "l1", "l2", "x1", "x2", 'f1', 'f2', 'b', 'Ф']
-
-    ls = []
-    i = 0
-    baby_l1_list, baby_l2_list, baby_x1_list, baby_x2_list, baby_f1_list, baby_f2_list, bkg1_list, bk2_list = [], [], [], \
-                                                                                                              [], [], [], \
-                                                                                                              [], []
-    for item in babys_bkg:
-        i += 1
-        l1 = binary_to_gray(item[0:m])
-        bkg1_list.append(item[0:m])
-        baby_l1_list.append(l1)
-        l2 = binary_to_gray(item[m:])
-        bk2_list.append(item[m:])
-        baby_l2_list.append(l2)
-        x1 = l1 * 79 / (2 ** m - 1)
-        baby_x1_list.append(x1)
-        x2 = l2 * 79 / (2 ** m - 1)
-        baby_x2_list.append(x2)
-        ls.append([l1, l2])
-        f1 = 0.2 * (x1 - 70) ** 2 + 0.8 * (x2 - 20) ** 2
-        baby_f1_list.append(f1)
-        f2 = 0.2 * (x1 - 10) ** 2 + 0.8 * (x2 - 70) ** 2
-        baby_f2_list.append(f2)
-        axes_4.scatter(x=f1, y=f2)
-        # axes_4.text(f1, f2, f'{i}')
-
-    baby_b_list, baby_fi_list = [], []
-    for i in range(1, N + 1):
-        b_conter = 0
-        for j in range(1, N + 1):
-            if (baby_f1_list[j - 1] < baby_f1_list[i - 1] and baby_f2_list[j - 1] <= baby_f2_list[i - 1]) or \
-                    (baby_f1_list[j - 1] <= baby_f1_list[i - 1] and baby_f2_list[j - 1] < baby_f2_list[i - 1]):
-                b_conter += 1
-
-        fi = 1 / (1 + (b_conter / (N - 1)))
-        baby_fi_list.append(fi)
-        table_4.add_row(
-            [i, bkg1_list[i - 1], bk2_list[i - 1], baby_l1_list[i - 1], baby_l2_list[i - 1],
-             f"{baby_x1_list[i - 1]:.2f}", \
-             f"{baby_x2_list[i - 1]:.2f}", f"{baby_f1_list[i - 1]:.2f}", f"{baby_f2_list[i - 1]:.2f}", \
-             b_conter, f"{fi:.2f}"])
-    fi_list = baby_fi_list.copy()
-    f1_list = baby_f1_list.copy()
-    f2_list = baby_f2_list.copy()
+    bkg_det_part_1, bkg_det_part_2 = fun.split_chrom_det(crossover_deti)
+    #print("\nbkg_det_part_1: ", bkg_det_part_1)
+    #print("\nbkg_det_part_2: ", bkg_det_part_2)
 
 
-axes_4.set_title('Пункт 3.4')
-axes_4.set_xlabel("f1")
-axes_4.set_ylabel("f2")
-axes_4.set_xlim(0, 4000)
-axes_4.set_ylim(0, 4000)
-# Отображаем график
-#plt.show()
-'''
+    list_bin_det_1 = fun.preobr_list_BKGx_to_binx(bkg_det_part_1)
+    list_intx_det_1 = fun.from_list_bin_to_list_int(list_bin_det_1)
+    list_realx_det_1 = fun.preobr_list_intx_to_realx(list_intx_det_1, length_part_BKG, xL, xH)
 
-l = [1, 2, 3, 4, 5, 6, 7, 8]
-l = [[i, j] for i, j in zip(l[0::2], l[1::2])]
-print(l)
+    list_bin_det_2 = fun.preobr_list_BKGx_to_binx(bkg_det_part_2)
+    list_intx_det_2 = fun.from_list_bin_to_list_int(list_bin_det_2)
+    list_realx_det_2 = fun.preobr_list_intx_to_realx(list_intx_det_2, length_part_BKG, xL, xH)
 
-'''
-def crossover(parent1, parent2):
-    t2 = int(N / 2 - 1)  #49
-    t1 = random.randint(1, t2 - 2)  #1..47
-    t3 = random.randint(t2 + 2, N - 1)  #51..99
-    baby1 = bkg_list[parent1][0:t1] + bkg_list[parent2][t1:t2] + bkg_list[parent1][t2:t3] + bkg_list[parent2][t3:m * 2]
-    baby2 = bkg_list[parent2][0:t1] + bkg_list[parent1][t1:t2] + bkg_list[parent2][t2:t3] + bkg_list[parent1][t3:m * 2]
-    return [baby1, baby2]
-'''
-s = "12345678"
-s1 = s[: len(s) // 2]
-s2 = s[len(s) // 2 :]
-print(s1, s2)
+
+    fun.grafik_realx(df_2_list_realx_1, df_2_list_realx_2, "Родители")
+    fun.grafik_f(df_2_f_list_1, df_2_f_list_2, "Функции пригодности родителей")
+    
+    
+    fun.grafik_realx(list_realx_det_1, list_realx_det_2, "Потомки")
+
+    J1_det_list, J2_det_list = fun.J1_function(list_realx_det_1, list_realx_det_2, kolvo_det) #количество детей пока совпадает с родителями
+    #print("J1_det", J1_det_list)
+    #print("J2_det", J2_det_list)
+    b_list_det_1, f_list_det_1 = fun.fun_prig(J1_det_list, kolvo_det)
+    b_list_det_2, f_list_det_2 = fun.fun_prig(J2_det_list, kolvo_det)
+    #print("b_list_1, f_list_1: ", b_list_det_1, f_list_det_1)
+    #print("b_list_2, f_list_2: ", b_list_det_2, f_list_det_2)
+    fun.grafik_f(f_list_det_1, f_list_det_2, "Функции пригодности потомков")
+
+
+    fun_prig_det_fin = fun.fun_prig_fin(f_list_det_1, f_list_det_2, kolvo_det)
+    #print("Функция пригодности: ", fun_prig_det_fin)
+
+
+    df_3 = pd.DataFrame({'ТТО 1':  list_bin_det_1,
+            'ТТО 2':  list_bin_det_2,
+            'x1 вещ.': list_realx_det_1,
+            'x2 вещ.': list_realx_det_2,
+            'f1': f_list_det_1,
+            'f2': f_list_det_2,
+            'Фун.приг.': fun_prig_det_fin
+            })
+    print("\nМассив потомков")
+    print(df_3)
+
+
+    df_elit_bir = fun.choose_from_df_elit_dots(df_3)
+    print("\nМассив элитных точек в популяции")
+    print(df_elit_bir)
+    df_elit_dots = pd.concat([df_elit_dots, df_elit_bir])
+
+    list_randoms_1 = df_3['ТТО 1']
+    list_realx_1 = df_3['x1 вещ.']
+    list_randoms_2 = df_3['ТТО 2']
+    list_realx_2 = df_3['x2 вещ.']
+
+#фиттнесс-функция в массиве всех собранных элитных точек 
+last_kolvo = len(list(df_elit_dots['x2 вещ.']))
+J1_list, J2_list = fun.J1_function(list(df_elit_dots['x1 вещ.']), list(df_elit_dots['x2 вещ.']), last_kolvo  )
+b_list_1, f_list_1 = fun.fun_prig(J1_list, last_kolvo)
+b_list_2, f_list_2 = fun.fun_prig(J2_list, last_kolvo)
+fun.grafik_f(f_list_1, f_list_2, "Функции пригодности всех элитных точек")
+fun_prig_fin = fun.fun_prig_fin(f_list_1, f_list_2, last_kolvo)
+
+#print("\n", len(list(df_elit_dots['ТТО 1'])),"\n",  len(list(df_elit_dots['ТТО 2'])),"\n",  len(df_elit_dots['x1 вещ.']),"\n",  len(df_elit_dots['x2 вещ.']), "\n", len(f_list_1), "\n", len(f_list_2), "\n", len(fun_prig_fin) )
+
+df_elit_newF = pd.DataFrame({'ТТО 1':  list(df_elit_dots['ТТО 1']),
+            'ТТО 2':  list(df_elit_dots['ТТО 2']),
+            'x1 вещ.': list(df_elit_dots['x1 вещ.']),
+            'x2 вещ.': list(df_elit_dots['x2 вещ.']),
+            'f1': f_list_1,
+            'f2': f_list_2,
+            'Фун.приг.': fun_prig_fin 
+            })
+
+print("\n\n-------------------------------------\nОтсортированный массив элитных точек во всех популяциях с пересчитанной Фиттнесс-функцией")
+print((df_elit_newF.sort_values(by='Фун.приг.')).iloc[::-1]) 
+
+df_elit_newF_with_1 = df_elit_newF[df_elit_newF["Фун.приг."] == 1]
+print("\n\n-------------------------------------\nМассив элитных точек во всех популяциях с Фиттнесс-функцией = 1")
+print(df_elit_newF_with_1) 
+
+fun.grafik_f(df_elit_newF_with_1['f1'], df_elit_newF_with_1['f2'], "Функции пригодности элитных точек с фиттнесс-функцией=1")
