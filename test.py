@@ -25,7 +25,7 @@ list_intx_2 = fun.from_list_bin_to_list_int(list_binars_2)
 list_realx_2 = fun.preobr_list_intx_to_realx(list_intx_2, length_part_BKG, xL, xH)
 fun.grafik_realx(list_realx_1, list_realx_2, "Инициализация начальной популяции")
 
-for i in range(10):
+for i in range(4):
     print("\nИТЕРАЦИЯ ", i+1, "\n")
     #beginning of cycle
 
